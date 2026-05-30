@@ -1,5 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   AXIOMX — Core Type Definitions
+   AXIOMX — Core Type Definitions v2.0
+   Enhanced with Thought Collision system, confidence propagation,
+   and psychologically distinct agent parameters
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export type AgentRole =
@@ -39,6 +41,10 @@ export interface ReasoningStep {
   is_contradiction: boolean;
   is_correction: boolean;
   duration_ms: number;
+  emotional_intensity?: number;
+  thinking_speed?: number;
+  has_collision?: boolean;
+  collision_severity?: number;
 }
 
 export interface AgentInteraction {
@@ -57,6 +63,10 @@ export interface GraphNode {
   agent_name?: string;
   confidence: number | null;
   color?: string;
+  importance?: number;
+  is_contradiction?: boolean;
+  pulse_intensity?: number;
+  emotional_intensity?: number;
 }
 
 export interface GraphEdge {
@@ -65,6 +75,9 @@ export interface GraphEdge {
   target: string;
   animated: boolean;
   label?: string;
+  edge_type?: "flow" | "challenge" | "collision";
+  strength?: number;
+  is_collision?: boolean;
 }
 
 export interface Contradiction {
@@ -74,6 +87,24 @@ export interface Contradiction {
   severity: number;
 }
 
+export interface ThoughtCollision {
+  id: string;
+  aggressor_agent: AgentRole;
+  target_agent: AgentRole;
+  collision_type: string;
+  severity: number;
+  description: string;
+  resolved: boolean;
+  ripple_agents: AgentRole[];
+}
+
+export interface ConfidenceShift {
+  agent: AgentRole;
+  from: number;
+  to: number;
+  delta: number;
+}
+
 export interface ReasoningSession {
   id: string;
   query: string;
@@ -81,16 +112,26 @@ export interface ReasoningSession {
   status: "idle" | "reasoning" | "complete" | "error";
   steps: ReasoningStep[];
   interactions: AgentInteraction[];
-  graph_nodes: GraphNode[];
-  graph_edges: GraphEdge[];
+  graphNodes: GraphNode[];
+  graphEdges: GraphEdge[];
   contradictions: Contradiction[];
+  thoughtCollisions: ThoughtCollision[];
+  confidenceHistory: ConfidenceShift[];
   confidence: number;
-  final_output: string | null;
-  active_agent: AgentRole | null;
-  thinking_content: string;
+  finalOutput: string | null;
+  activeAgent: AgentRole | null;
+  thinkingContent: string;
 }
 
 // ─── WebSocket Event Types ─────────────────────────────────────────────────
+
+export interface WSSessionInitEvent {
+  type: "session_init";
+  query: string;
+  scenario_mode: string;
+  agents_count: number;
+  estimated_steps: number;
+}
 
 export interface WSAgentStartEvent {
   type: "agent_start";
@@ -101,13 +142,19 @@ export interface WSAgentStartEvent {
   personality: string;
   step: number;
   total_steps: number;
+  thinking_speed?: number;
+  confidence_bias?: number;
+  contrarian_tendency?: number;
+  emotional_intensity?: number;
 }
 
 export interface WSThinkingEvent {
   type: "thinking";
   agent: AgentRole;
   content: string;
-  chunk_index: number;
+  is_full?: boolean;
+  emotional_intensity?: number;
+  thinking_speed?: number;
 }
 
 export interface WSAgentStepEvent {
@@ -120,11 +167,46 @@ export interface WSAgentStepEvent {
   graph_node: GraphNode;
   graph_edge: GraphEdge | null;
   overall_confidence: number;
+  confidence_delta?: number;
+  confidence_history?: ConfidenceShift[];
 }
 
 export interface WSContradictionEvent {
   type: "contradiction";
   contradiction: Contradiction;
+}
+
+export interface WSThoughtCollisionEvent {
+  type: "thought_collision";
+  collision: ThoughtCollision;
+  severity: number;
+  aggressor: AgentRole;
+  aggressor_name: string;
+  aggressor_color: string;
+  target: AgentRole;
+  target_name: string;
+  target_color: string;
+  collision_type: string;
+  ripple_agents: AgentRole[];
+}
+
+export interface WSCollisionResolvedEvent {
+  type: "collision_resolved";
+  collision_id: string;
+  resolver: AgentRole;
+  resolver_name: string;
+  verdict: string;
+  adjusted_severity: number;
+  confidence_impact: number;
+}
+
+export interface WSConfidenceShiftEvent {
+  type: "confidence_shift";
+  agent: AgentRole;
+  from: number;
+  to: number;
+  delta: number;
+  direction: "up" | "down";
 }
 
 export interface WSReasoningCompleteEvent {
@@ -133,8 +215,10 @@ export interface WSReasoningCompleteEvent {
   confidence: number;
   total_steps: number;
   contradictions_found: number;
+  thought_collisions: number;
   graph_nodes: GraphNode[];
   graph_edges: GraphEdge[];
+  confidence_history: ConfidenceShift[];
 }
 
 export interface WSSessionCompleteEvent {
@@ -151,10 +235,14 @@ export interface WSSessionCompleteEvent {
 }
 
 export type WSEvent =
+  | WSSessionInitEvent
   | WSAgentStartEvent
   | WSThinkingEvent
   | WSAgentStepEvent
   | WSContradictionEvent
+  | WSThoughtCollisionEvent
+  | WSCollisionResolvedEvent
+  | WSConfidenceShiftEvent
   | WSReasoningCompleteEvent
   | WSSessionCompleteEvent
   | { type: "error"; message: string }
