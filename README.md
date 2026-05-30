@@ -10,225 +10,109 @@
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python)](https://python.org/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Agents-1C3C3C?style=flat-square)](https://langchain-ai.github.io/langgraph/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)](https://docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-00E5FF?style=flat-square)](LICENSE)
 
-**A next-generation AI reasoning operating system that decomposes complex problems, deploys specialized autonomous agents, and synthesizes strategic intelligence through collaborative debate, verification, and self-critique.**
+**A visible computational cognition operating system from the future.**
+**Powered by GPT-4o, LangGraph, and a real-time Cognitive Physics Engine.**
 
-[Live Demo](#) · [Architecture](#architecture) · [Quick Start](#quick-start) · [Agents](#agent-network) · [Contributing](#contributing)
-
----
+![AXIOMX AI Debate Arena](public/axiomx_debate_arena.png)
 
 </div>
 
 ## 🧠 What is AXIOMX?
 
-AXIOMX is not a chatbot. It's a **multi-agent reasoning engine** — a system where 8 specialized AI agents collaborate, debate, challenge, and verify each other's reasoning to produce deeply analyzed strategic recommendations.
+AXIOMX is not a chatbot or an AI wrapper. It's a **multi-agent reasoning engine** — a system where 8 specialized, psychologically distinct AI agents collaborate, debate, challenge, and verify each other's reasoning to produce deeply analyzed strategic recommendations.
 
-When you submit a query, AXIOMX:
-
-1. **Decomposes** the problem via the Strategic Planner (NEXUS)
-2. **Researches** evidence and data via the Research Agent (CORTEX)
-3. **Challenges** assumptions via the Critic Agent (VECTOR)
-4. **Verifies** logic chains via the Verification Agent (AEGIS)
-5. **Assesses risks** via the Risk Analyst (SENTINEL)
-6. **Optimizes** the strategy via the Optimizer (PRISM)
-7. **Synthesizes** a final decision via the Decision Agent (APEX)
-
-All of this happens **in real-time**, streamed through WebSockets, with a **cinematic visualization** of the reasoning process.
+When you submit a query, AXIOMX builds a dynamically mutating, live-streaming topology of thought using a custom **Cognitive Physics Engine**.
 
 ---
 
-## ✨ Key Features
+## ⚡ The Signature Mode: AI Debate Arena
 
-| Feature | Description |
-|---------|-------------|
-| 🤖 **8 Specialized Agents** | Each with unique personalities, reasoning styles, and visual identities |
-| 🌊 **Live Reasoning Stream** | Watch agents think, debate, and challenge each other in real-time |
-| 🕸️ **Interactive Reasoning Graph** | Draggable, zoomable neural visualization of thought chains |
-| ⚔️ **AI Self-Critique** | Agents detect weak logic, flag contradictions, and propose alternatives |
-| 📊 **Real-Time Telemetry** | Live confidence metrics, agent performance, and interaction tracking |
-| 🎯 **Scenario Modes** | Business Strategy, Cybersecurity, Scientific Research, Startup, Debate, Risk, AI Decision |
-| 💾 **Memory System** | Conversation persistence, reasoning history, and long-term context |
-| 🎨 **Cinematic UI** | Glassmorphism, neural particle backgrounds, neon aesthetics, Framer Motion animations |
+AXIOMX features a viral showcase mode called the **AI Debate Arena**. 
+In this mode, a high-conflict LangGraph topology is constructed to maximize disagreements. 
+The Debate Arena features:
+- **Contradiction Shockwaves:** Disagreements propagate visual turbulence across the network.
+- **Confidence Collapse:** When assumptions are successfully challenged, node confidence metrics dynamically plummet.
+- **Topology Mutation:** The graph literally fractures, branches, and reorganizes in real-time as agents fight for strategic dominance.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture & Cognitive Physics Engine
+
+AXIOMX renders thoughts not as static text logs, but as a living physical topology.
+See [Architecture Documentation](docs/architecture.md) for details on the **Cognitive Physics Engine**.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                      AXIOMX FRONTEND                        │
 │  Next.js 15 · TypeScript · Tailwind · Framer Motion         │
-│  React Flow (Reasoning Graph) · Zustand (State) · Recharts  │
+│  React Flow (Cognitive Gravity Engine) · Zustand            │
 ├──────────────────────────────────────────────────────────────┤
 │                     WebSocket Layer                          │
-│           Real-time reasoning event streaming                │
+│           Token-by-Token Live Reasoning Streaming            │
 ├──────────────────────────────────────────────────────────────┤
 │                      AXIOMX BACKEND                         │
-│            FastAPI · Python · SQLAlchemy                     │
+│            FastAPI · GPT-4o · LangGraph                      │
 ├──────────────┬───────────────┬───────────────────────────────┤
 │  Agent       │  Reasoning    │  Memory                       │
-│  Engine      │  Pipeline     │  System                       │
-│  (LangGraph) │  (WebSockets) │  (PostgreSQL)                 │
+│  Psychology  │  Topology     │  System                       │
+│  (LLM Core)  │  (Graph)      │  (PostgreSQL + Redis)         │
 ├──────────────┴───────────────┴───────────────────────────────┤
-│            Infrastructure Layer                              │
-│    PostgreSQL · Redis · Docker · Celery                      │
+│            Production Infrastructure                         │
+│    Vercel (UI) · Railway (API) · Neon (DB) · Upstash         │
 └──────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🤖 Agent Network
+## 🚀 Quick Start (Local Setup)
 
-| Agent | Codename | Role | Personality |
-|-------|----------|------|-------------|
-| ⚡ | **NEXUS** | Strategic Planner | Methodical, visionary, decisive |
-| 🔬 | **CORTEX** | Researcher | Analytical, thorough, evidence-driven |
-| ⚠️ | **VECTOR** | Critic | Skeptical, sharp, uncompromising |
-| ✅ | **AEGIS** | Verifier | Precise, methodical, trustworthy |
-| 🛡️ | **SENTINEL** | Risk Analyst | Cautious, strategic, protective |
-| 💎 | **PRISM** | Optimizer | Creative, efficient, elegant |
-| 🧠 | **ARCHIVE** | Memory | Persistent, contextual, consistent |
-| 🎯 | **APEX** | Decider | Authoritative, balanced, conclusive |
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Node.js 18+
-- Python 3.12+
-- Docker & Docker Compose (for PostgreSQL & Redis)
-
-### 1. Clone the repository
-
+### 1. Clone & Configure
 ```bash
 git clone https://github.com/yourusername/axiomx.git
 cd axiomx
 ```
 
-### 2. Start infrastructure
-
+### 2. Infrastructure
+Ensure you have Docker running.
 ```bash
 docker-compose up -d postgres redis
 ```
 
-### 3. Start the backend
-
+### 3. Backend (FastAPI + LangGraph)
+You must set your OpenAI API Key.
 ```bash
 cd api
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
+# Set OPENAI_API_KEY environment variable
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 4. Start the frontend
-
+### 4. Frontend (Next.js 15)
 ```bash
 cd web
 npm install
 npm run dev
 ```
-
-### 5. Open the platform
-
-Navigate to **http://localhost:3000** and deploy your first reasoning session.
+Navigate to **http://localhost:3000** and experience live cognition.
 
 ---
 
-## 📁 Project Structure
+## 🚀 Production Deployment
 
-```
-axiomx/
-├── web/                        # Next.js 15 Frontend
-│   ├── src/
-│   │   ├── app/                # App Router
-│   │   ├── components/
-│   │   │   ├── effects/        # Visual effects (Neural Background)
-│   │   │   ├── layout/         # Sidebar, Header
-│   │   │   ├── reasoning/      # Core reasoning UI components
-│   │   │   └── agents/         # Agent Registry
-│   │   ├── hooks/              # Custom hooks (WebSocket)
-│   │   ├── stores/             # Zustand state management
-│   │   └── types/              # TypeScript definitions
-│   └── package.json
-│
-├── api/                        # FastAPI Backend
-│   ├── app/
-│   │   ├── agents/             # Multi-agent reasoning engine
-│   │   ├── core/               # Configuration
-│   │   ├── models/             # SQLAlchemy database models
-│   │   ├── routes/             # API & WebSocket routes
-│   │   └── websockets/         # Connection manager
-│   ├── main.py
-│   └── requirements.txt
-│
-├── docker-compose.yml          # Infrastructure
-└── README.md
-```
-
----
-
-## 🎨 Design Philosophy
-
-AXIOMX's interface is inspired by:
-
-- **Palantir** — Intelligence platform aesthetics
-- **Iron Man HUD** — Holographic information layers
-- **Tesla AI** — Clean neural system design
-- **DeepMind** — Scientific visualization excellence
-
-The design system uses:
-- `#050816` — Deep space background
-- `#00E5FF` — Primary neon cyan
-- `#3B82F6` — Accent blue
-- `#67E8F9` — Glow cyan
-- Glassmorphism with 20px backdrop blur
-- Neural particle grid backgrounds
-- Agent-specific color coding
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **Next.js 15** — App Router, Server Components
-- **TypeScript** — Strict type safety
-- **Tailwind CSS** — Utility-first styling
-- **Framer Motion** — Cinematic animations
-- **React Flow** — Interactive reasoning graph
-- **Zustand** — Lightweight state management
-- **Recharts** — Data visualization
-
-### Backend
-- **FastAPI** — High-performance async API
-- **Python 3.12** — Type hints, modern async
-- **SQLAlchemy** — Async ORM
-- **WebSockets** — Real-time streaming
-- **Celery + Redis** — Task queue
-
-### AI/ML
-- **LangGraph** — Multi-agent orchestration
-- **LangChain** — LLM framework
-- **Local Reasoning Engine** — Works without API keys
-
-### Infrastructure
-- **Docker Compose** — One-command deployment
-- **PostgreSQL 16** — Primary database
-- **Redis 7** — Cache & message broker
-
----
-
-## 📜 License
-
-MIT License — see [LICENSE](LICENSE) for details.
+This repository is optimized for immediate production deployment:
+- **Vercel** (`web/vercel.json` included) for the frontend.
+- **Railway/Render** (`api/Dockerfile` uses Gunicorn/Uvicorn workers) for the backend.
+- **Neon** for PostgreSQL and **Upstash** for Redis.
 
 ---
 
 <div align="center">
 
-**Built with obsessive attention to detail.**
+**Engineered with obsessive attention to cinematic detail and real intelligence.**
 
-*AXIOMX — Where intelligence evolves.*
+*AXIOMX — Visible Computational Cognition.*
 
 </div>
