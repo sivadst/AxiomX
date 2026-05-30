@@ -260,16 +260,29 @@ class LocalReasoningEngine:
         })
         await asyncio.sleep(0.6)
 
-        # Pipeline: each agent contributes based on psychology
-        pipeline = [
-            ("strategic_planner", self._phase_plan),
-            ("researcher", self._phase_research),
-            ("critic", self._phase_critique),
-            ("verifier", self._phase_verify),
-            ("risk_analyst", self._phase_risk),
-            ("optimizer", self._phase_optimize),
-            ("decider", self._phase_decide),
-        ]
+        # Select pipeline based on scenario mode
+        if scenario_mode == "ai_debate_arena":
+            # INSANE SHOWCASE MODE: AI Debate Arena
+            # Designed to maximize graph turbulence, thought collisions, and confidence collapse
+            pipeline = [
+                ("verifier", self._phase_debate_moderator),
+                ("critic", self._phase_debate_aggressor),
+                ("researcher", self._phase_debate_defender),
+                ("risk_analyst", self._phase_debate_escalator),
+                ("optimizer", self._phase_debate_counter_attack),
+                ("decider", self._phase_debate_resolution),
+            ]
+        else:
+            # Standard Business Strategy Pipeline
+            pipeline = [
+                ("strategic_planner", self._phase_plan),
+                ("researcher", self._phase_research),
+                ("critic", self._phase_critique),
+                ("verifier", self._phase_verify),
+                ("risk_analyst", self._phase_risk),
+                ("optimizer", self._phase_optimize),
+                ("decider", self._phase_decide),
+            ]
 
         node_id = 0
         # Root query node
