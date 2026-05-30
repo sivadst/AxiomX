@@ -14,7 +14,7 @@
 **A visible computational cognition operating system from the future.**
 **Powered by GPT-4o, LangGraph, and a real-time Cognitive Physics Engine.**
 
-![AXIOMX AI Debate Arena](public/axiomx_debate_arena.png)
+![AXIOMX AI Debate Arena](web/public/axiomx_debate_arena.png)
 
 </div>
 
