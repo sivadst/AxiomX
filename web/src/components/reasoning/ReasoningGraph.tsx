@@ -39,6 +39,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useAxiomStore } from "@/stores/axiomStore";
+import { AGENT_PROFILES } from "@/types";
 
 /* ─── Custom Reasoning Node ──────────────────────────────────────────────── */
 
@@ -471,11 +472,50 @@ function GraphCore() {
     confidence,
     collisionPulseActive,
     thoughtCollisions,
+    activeAgent,
+    activeAgentMeta,
+    thinkingContent,
   } = useAxiomStore();
 
+  const liveStoreNodes = useMemo(() => {
+    if (activeAgent) {
+      const prevNodeId = storeNodes.length > 0 ? storeNodes[storeNodes.length - 1].id : "node-0";
+      const newNodeId = `node-thinking`;
+      const agentProfile = AGENT_PROFILES[activeAgent] || { color: "#00E5FF", name: "UNKNOWN" };
+      return [...storeNodes, {
+        id: newNodeId,
+        type: "reasoning",
+        label: thinkingContent + " █",
+        agent: activeAgent,
+        agent_name: agentProfile.name,
+        confidence: confidence,
+        color: agentProfile.color,
+        importance: 0.8,
+        pulse_intensity: 1.0,
+      }];
+    }
+    return storeNodes;
+  }, [storeNodes, activeAgent, thinkingContent, confidence]);
+
+  const liveStoreEdges = useMemo(() => {
+    if (activeAgent) {
+      const prevNodeId = storeNodes.length > 0 ? storeNodes[storeNodes.length - 1].id : "node-0";
+      return [...storeEdges, {
+        id: `edge-thinking`,
+        source: prevNodeId,
+        target: `node-thinking`,
+        animated: true,
+        label: "thinking...",
+        edge_type: "flow",
+        strength: confidence,
+      }];
+    }
+    return storeEdges;
+  }, [storeEdges, storeNodes, activeAgent, confidence]);
+
   const { nodes, edges, onNodesChange, onEdgesChange } = useCognitivePhysics(
-    storeNodes,
-    storeEdges,
+    liveStoreNodes,
+    liveStoreEdges,
     collisionPulseActive,
     confidence
   );
