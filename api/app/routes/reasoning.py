@@ -7,7 +7,7 @@ import uuid
 import json
 import logging
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from app.agents.engine import LocalReasoningEngine
+from app.agents.langgraph_engine import LangGraphReasoningEngine
 
 router = APIRouter()
 logger = logging.getLogger("axiomx.reasoning")
@@ -44,7 +44,7 @@ async def reasoning_websocket(websocket: WebSocket, session_id: str):
                     except Exception:
                         pass
 
-                engine = LocalReasoningEngine(ws_callback=ws_callback)
+                engine = LangGraphReasoningEngine(ws_callback=ws_callback)
 
                 # Run reasoning
                 result = await engine.run_reasoning(session_id, query, scenario_mode)

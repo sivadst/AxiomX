@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  # ─── PostgreSQL Database ─────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: axiomx-db-prod
+    environment:
+      POSTGRES_USER: axiomx
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-axiomx_prod_pass}
+      POSTGRES_DB: axiomx
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U axiomx"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  # ─── Redis Cache & Message Broker ─────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: axiomx-redis-prod
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  # ─── FastAPI Backend ──────────────────────────────────────────────────────
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: axiomx-api-prod
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://axiomx:${DB_PASSWORD:-axiomx_prod_pass}@postgres:5432/axiomx
+      REDIS_URL: redis://redis:6379/0
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      DEBUG: "false"
+      CORS_ORIGINS: '["https://axiomx-yourdomain.vercel.app"]' # Update this in deployment
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  postgres_data_prod:

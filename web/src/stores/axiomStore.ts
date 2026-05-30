@@ -148,6 +148,13 @@ export const useAxiomStore = create<AxiomState>((set, get) => ({
         });
         break;
 
+      case "agent_thought_chunk":
+        // Append chunk for streaming effect
+        set((prevState) => ({
+          thinkingContent: prevState.thinkingContent + event.chunk,
+        }));
+        break;
+
       case "agent_step":
         set({
           steps: [...state.steps, event.step],
